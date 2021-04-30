@@ -1,0 +1,24 @@
+<div class="row">
+   <div class="col-12 col-xs-10">
+      <app-shopping-edit></app-shopping-edit>
+      <hr>
+      <ul class="list-group">
+         <li class="list-group-item clearfix"
+            *ngFor="let ingredient of shoppingListService.ingredients; let i = index">
+            <span class="ing-detail float-left">{{ ingredient.name }} ({{ ingredient.amount }})</span>
+            <span class="ing-detail float-right">
+               <i class="bi bi-pencil-square margin-r-10 pointer"
+                  placement="top"
+                  ngbTooltip="Edit ingredient"
+                  (click)="onEdit(i)">
+               </i>
+               <i class="bi bi-x-circle text-danger pointer"
+                  placement="top"
+                  ngbTooltip="Remove from list"
+                  (click)="onDeleteIngredient(ingredient.name)">
+               </i>
+            </span>
+         </li>
+      </ul>
+   </div>
+</div>

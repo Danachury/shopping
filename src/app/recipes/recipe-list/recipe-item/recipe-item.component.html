@@ -1,0 +1,14 @@
+<div class="list-group">
+   <a class="list-group-item list-group-item-action app-list-item clearfix pointer"
+      [routerLink]="[recipe.id]" routerLinkActive="active">
+      <div class="float-left">
+         <h4>{{ recipe.name }}</h4>
+         <p>{{ recipe.description }}</p>
+      </div>
+      <span class="float-right">
+         <img [src]="recipe.imagePath"
+              alt="{{ recipe.name }} Image"
+              class="img-fluid">
+      </span>
+   </a>
+</div>

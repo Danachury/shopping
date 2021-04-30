@@ -12,7 +12,10 @@
     },
     "array-type": false,
     "arrow-return-shorthand": true,
-    "curly": true,
+    "curly": {
+      "options": "as-needed",
+      "severity": "warning"
+    },
     "deprecation": {
       "severity": "warning"
     },
@@ -43,14 +46,7 @@
         ]
       }
     ],
-    "no-console": [
-      true,
-      "debug",
-      "info",
-      "time",
-      "timeEnd",
-      "trace"
-    ],
+    "no-console": [true],
     "no-empty": false,
     "no-inferrable-types": [
       true,
@@ -70,7 +66,7 @@
     ],
     "semicolon": {
       "options": [
-        "always"
+        "never"
       ]
     },
     "space-before-function-paren": {
@@ -108,7 +104,8 @@
       "options": [
         "ban-keywords",
         "check-format",
-        "allow-pascal-case"
+        "allow-pascal-case",
+        "allow-leading-underscore"
       ]
     },
     "whitespace": {

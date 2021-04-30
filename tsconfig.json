@@ -15,7 +15,14 @@
     "lib": [
       "es2018",
       "dom"
-    ]
+    ],
+    "paths": {
+      "@core/*": ["src/core/*"],
+      "@env/*": ["src/environments/*"],
+      "@recipes/*": ["src/app/recipes/*"],
+      "@shared/*": ["src/app/shared/*"],
+      "@shopping/*": ["src/app/shopping/*"]
+    }
   },
   "angularCompilerOptions": {
     "enableI18nLegacyMessageIdFormat": false

@@ -1,0 +1,39 @@
+<div class="row">
+   <div class="col-12">
+      <form (ngSubmit)="onSubmit()" [formGroup]="shoppingForm">
+         <div class="row">
+            <div class="col-sm-5 form-group">
+               <label for="name">Name</label>
+               <input type="text"
+                      id="name"
+                      class="form-control"
+                      formControlName="name">
+               <small *ngIf="shoppingForm.get('amount').touched && shoppingForm.get('name').hasError('nameIsRepeated')" class="text-danger">
+                  Ingredient already added.
+               </small>
+            </div>
+            <div class="col-sm-2 form-group">
+               <label for="amount">Amount</label>
+               <input type="number"
+                      id="amount"
+                      class="form-control"
+                      formControlName="amount">
+               <small *ngIf="shoppingForm.get('amount').touched && shoppingForm.get('amount').invalid" class="text-danger">
+                  Min 1 - Max 4 items
+               </small>
+            </div>
+         </div>
+
+         <div class="row">
+            <div class="col-12 actions">
+               <button type="submit" class="btn btn-success" [disabled]="shoppingForm.invalid">
+                  {{ editItemId === null ? 'Add' : 'Update' }}
+               </button>
+               <button type="button" class="btn btn-primary" (click)="onClear()" [disabled]="shoppingForm.invalid">
+                  Clear
+               </button>
+            </div>
+         </div>
+      </form>
+   </div>
+</div>
