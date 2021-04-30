@@ -21,7 +21,7 @@ export class ShoppingEditComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.shoppingForm = new FormGroup({
       name: new FormControl('', Validators.required, this.repeatedNameValidator.bind(this)),
-      amount: new FormControl('', [Validators.min(1), Validators.max(4)])
+      amount: new FormControl('', [Validators.required, Validators.min(1), Validators.max(4)])
     })
     this._editingSubscription = this._shoppingListService
       .editingItem$
@@ -62,6 +62,10 @@ export class ShoppingEditComponent implements OnInit, OnDestroy {
         subscriber.next(null)
       subscriber.complete()
     })
+  }
+
+  controlHasError(controlName: string, error: string = 'required'): boolean {
+    return this.shoppingForm.get(controlName).touched && this.shoppingForm.get(controlName).hasError(error)
   }
 
   private _onEditItem(index: number): void {

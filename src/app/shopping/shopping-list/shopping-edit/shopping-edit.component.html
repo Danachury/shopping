@@ -8,7 +8,8 @@
                       id="name"
                       class="form-control"
                       formControlName="name">
-               <small *ngIf="shoppingForm.get('amount').touched && shoppingForm.get('name').hasError('nameIsRepeated')" class="text-danger">
+               <small *ngIf="controlHasError('name','nameIsRepeated')"
+                      class="text-danger">
                   Ingredient already added.
                </small>
             </div>
@@ -18,7 +19,7 @@
                       id="amount"
                       class="form-control"
                       formControlName="amount">
-               <small *ngIf="shoppingForm.get('amount').touched && shoppingForm.get('amount').invalid" class="text-danger">
+               <small *ngIf="controlHasError('amount', 'min') || controlHasError('amount', 'max')" class="text-danger">
                   Min 1 - Max 4 items
                </small>
             </div>
