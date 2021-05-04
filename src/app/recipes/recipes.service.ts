@@ -8,36 +8,7 @@ export class RecipesService {
 
   private _recipes: Recipe[] = []
 
-  constructor(private _shoppingListService: ShoppingListService) {
-    this.recipes = [
-      new Recipe(
-        0,
-        'Tasty Schnitzel',
-        'A super-tasty Schnitzel - Just Awesome!',
-        'assets/img/tasty-schnitzel.jpg',
-        [
-          new Ingredient('Meat', 1),
-          new Ingredient('French Fries', 20),
-          new Ingredient('Lemon', 1),
-          new Ingredient('Salad', 1)
-        ]
-      ),
-      new Recipe(
-        1,
-        'Big Fat Burger',
-        'What else you need to say?',
-        'assets/img/big-fat-burger.png',
-        [
-          new Ingredient('Buns', 2),
-          new Ingredient('Meat', 3),
-          new Ingredient('Cheddar cheese', 4),
-          new Ingredient('Lettuce', 1),
-          new Ingredient('Tomatoes', 2),
-          new Ingredient('Purple onions', 2)
-        ]
-      )
-    ]
-  }
+  constructor(private _shoppingListService: ShoppingListService) { }
 
   getRecipe(id: number): Recipe {
     return this.recipes
