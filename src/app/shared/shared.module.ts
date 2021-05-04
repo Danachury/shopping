@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core'
 import { CommonModule } from '@angular/common'
 import { DropdownDirective, HighlightDirective, UnlessDirective } from './directives'
 import { FormsModule, ReactiveFormsModule } from '@angular/forms'
+import { HttpClientModule } from '@angular/common/http'
 
 @NgModule({
   declarations: [HighlightDirective, UnlessDirective, DropdownDirective],
@@ -10,12 +11,14 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms'
     UnlessDirective,
     DropdownDirective,
     ReactiveFormsModule,
-    FormsModule
+    FormsModule,
+    HttpClientModule
   ],
   imports: [
     CommonModule,
     ReactiveFormsModule,
-    FormsModule
+    FormsModule,
+    HttpClientModule
   ]
 })
 export class SharedModule {}

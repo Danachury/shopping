@@ -9,8 +9,8 @@
          <li class="nav-item">
             <a ngbDropdownToggle id="navbarDropdown" class="nav-link pointer" role="button">Manage</a>
             <div ngbDropdownMenu aria-labelledby="navbarDropdown">
-               <a ngbDropdownItem class="pointer">Save Data</a>
-               <a ngbDropdownItem class="pointer">Fetch Data</a>
+               <a ngbDropdownItem class="pointer" (click)="onSaveData()">Save Data</a>
+               <a ngbDropdownItem class="pointer" (click)="onFetchData()">Fetch Data</a>
             </div>
          </li>
       </ul>
