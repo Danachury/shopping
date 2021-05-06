@@ -49,14 +49,6 @@ export class Logger {
 
   constructor(private source?: string) {}
 
-  /**
-   * Enables production mode.
-   * Sets logging level to LogLevel.Warning.
-   */
-  static enableProductionMode(): void {
-    Logger.level = LogLevel.Warning
-  }
-
   private log(func: (...args: any[]) => void, level: LogLevel, objects: any[]): void {
     if (level <= Logger.level) {
       const log = this.source
@@ -97,5 +89,13 @@ export class Logger {
    */
   error(...objects: any[]): void {
     this.log(console.error, LogLevel.Error, objects)
+  }
+
+  /**
+   * Enables production mode.
+   * Sets logging level to LogLevel.Warning.
+   */
+  static enableProductionMode(): void {
+    Logger.level = LogLevel.Warning
   }
 }

@@ -4,8 +4,9 @@ import { Observable } from 'rxjs'
 import { RecipesService } from '@recipes/recipes.service'
 import { Recipe } from '@recipes/recipe.model'
 import { map, tap } from 'rxjs/operators'
+import { AuthService } from 'src/app/auth/auth.service'
 
-const SERVICE_URL = 'https://shopping-10bbc-default-rtdb.firebaseio.com'
+const SERVICE_URL = 'https://shopping-10bbc-default-rtdb.firebaseio.com/recipes.json'
 
 @Injectable({
   providedIn: 'root'
@@ -13,11 +14,12 @@ const SERVICE_URL = 'https://shopping-10bbc-default-rtdb.firebaseio.com'
 export class DataStorageService {
 
   constructor(private _http: HttpClient,
-              private _recipeService: RecipesService) { }
+              private _recipeService: RecipesService,
+              private _authService: AuthService) { }
 
   storeRecipe(): Observable<Recipe[]> {
     return this._http
-      .put<Recipe[]>(`${SERVICE_URL}/recipes.json`, this._recipeService.recipes)
+      .put<Recipe[]>(SERVICE_URL, this._recipeService.recipes)
   }
 
   fetchRecipes(): Observable<Recipe[]> {
@@ -27,7 +29,7 @@ export class DataStorageService {
       this._recipeService.recipes = recipes
 
     return this._http
-      .get<Recipe[]>(`${SERVICE_URL}/recipes.json`)
+      .get<Recipe[]>(SERVICE_URL)
       .pipe(map(mapRecipes), tap(setRecipes))
   }
 }

@@ -1,6 +1,8 @@
 import { Component } from '@angular/core'
 import { DataStorageService } from '@shared/services/data-storage.service'
 import { Logger } from 'src/app/core/logging'
+import { AuthService } from 'src/app/auth/auth.service'
+import { Router } from '@angular/router'
 
 const logger = new Logger('HeaderComponent')
 
@@ -10,7 +12,9 @@ const logger = new Logger('HeaderComponent')
 })
 export class HeaderComponent {
 
-  constructor(private _dataStorageService: DataStorageService) {}
+  constructor(public authService: AuthService,
+              private _dataStorageService: DataStorageService,
+              private _router: Router) {}
 
   onSaveData(): void {
     this._dataStorageService
@@ -24,5 +28,11 @@ export class HeaderComponent {
     this._dataStorageService
       .fetchRecipes()
       .subscribe()
+  }
+
+  onLogout(): void {
+    const loggedOut = this.authService.logout()
+    if (loggedOut)
+      this._router.navigate(['/auth'])
   }
 }

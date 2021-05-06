@@ -8,12 +8,15 @@ import { RecipeDetailComponent } from '@recipes/recipe-detail'
 import { RecipeItemComponent } from '@recipes/recipe-list/recipe-item'
 import { ShoppingListComponent } from '@shopping/shopping-list'
 import { ShoppingEditComponent } from '@shopping/shopping-list/shopping-edit'
-import { RecipesComponent, RecipesService } from './recipes'
+import { RecipesComponent } from './recipes'
 import { SharedModule } from '@shared/shared.module'
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap'
 import { AppRoutingModule } from './app-routing.module'
 import { RecipeStartComponent } from '@recipes/recipe-start'
 import { RecipeEditComponent } from '@recipes/recipe-edit'
+import { AuthComponent } from 'src/app/auth'
+import { HTTP_INTERCEPTORS } from '@angular/common/http'
+import { AuthInterceptorService } from 'src/app/auth/auth-interceptor.service'
 
 @NgModule({
   declarations: [
@@ -26,7 +29,8 @@ import { RecipeEditComponent } from '@recipes/recipe-edit'
     ShoppingEditComponent,
     RecipesComponent,
     RecipeStartComponent,
-    RecipeEditComponent
+    RecipeEditComponent,
+    AuthComponent
   ],
   imports: [
     AppRoutingModule,
@@ -34,7 +38,7 @@ import { RecipeEditComponent } from '@recipes/recipe-edit'
     SharedModule,
     NgbModule
   ],
-  providers: [RecipesService],
+  providers: [{ provide: HTTP_INTERCEPTORS, useClass: AuthInterceptorService, multi: true }],
   bootstrap: [AppComponent]
 })
-export class AppModule { }
+export class AppModule {}

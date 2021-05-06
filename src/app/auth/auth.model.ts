@@ -1,0 +1,21 @@
+export interface AuthResponseData {
+  kind: string,
+  idToken: string,
+  email: string,
+  refreshToken: string,
+  expiresIn: string,
+  localId: string,
+  registered?: boolean
+}
+
+export interface RequestBody {
+  email: string
+  password: string
+  returnSecureToken: boolean
+}
+
+export interface LoginContext {
+  email: string,
+  password: string
+  remember?: boolean
+}
