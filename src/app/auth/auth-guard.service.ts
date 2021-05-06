@@ -16,6 +16,7 @@ export class AuthGuardService implements CanActivate {
   canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): UrlTree | boolean {
     if (!this._authService.isAuthenticated) {
       logger.info('Not authenticated. Redirecting to /auth..')
+      this._authService.logout()
       return this._router.createUrlTree(['/auth'])
     }
     return true
