@@ -3,10 +3,10 @@ import { CommonModule } from '@angular/common'
 import { DropdownDirective, HighlightDirective, UnlessDirective } from './directives'
 import { FormsModule, ReactiveFormsModule } from '@angular/forms'
 import { HttpClientModule } from '@angular/common/http'
-import { LoadingSpinnerComponent } from './components/loading-spinner/loading-spinner.component'
+import { DialogAlertComponent, LoadingSpinnerComponent } from './components'
 
 @NgModule({
-  declarations: [HighlightDirective, UnlessDirective, DropdownDirective, LoadingSpinnerComponent],
+  declarations: [HighlightDirective, UnlessDirective, DropdownDirective, LoadingSpinnerComponent, DialogAlertComponent],
   exports: [
     HighlightDirective,
     UnlessDirective,
@@ -14,7 +14,8 @@ import { LoadingSpinnerComponent } from './components/loading-spinner/loading-sp
     ReactiveFormsModule,
     FormsModule,
     HttpClientModule,
-    LoadingSpinnerComponent
+    LoadingSpinnerComponent,
+    DialogAlertComponent
   ],
   imports: [
     CommonModule,

@@ -54,6 +54,10 @@ export class AuthComponent implements OnDestroy {
     form.reset()
   }
 
+  resetError(): void {
+    this.error = null
+  }
+
   onSwitchMode(): void {
     this.isLoginMode = !this.isLoginMode
   }
