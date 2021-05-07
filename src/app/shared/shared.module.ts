@@ -4,6 +4,8 @@ import { DropdownDirective, HighlightDirective, PlaceholderDirective, UnlessDire
 import { FormsModule, ReactiveFormsModule } from '@angular/forms'
 import { HttpClientModule } from '@angular/common/http'
 import { DialogAlertComponent, LoadingSpinnerComponent } from './components'
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap'
+import { BrowserModule } from '@angular/platform-browser'
 
 @NgModule({
   declarations: [
@@ -15,21 +17,31 @@ import { DialogAlertComponent, LoadingSpinnerComponent } from './components'
     PlaceholderDirective
   ],
   exports: [
+    // Modules
+    NgbModule,
+    FormsModule,
+    CommonModule,
+    BrowserModule,
+    HttpClientModule,
+    ReactiveFormsModule,
+
+    // Directives
     HighlightDirective,
     UnlessDirective,
     DropdownDirective,
     PlaceholderDirective,
-    ReactiveFormsModule,
-    FormsModule,
-    HttpClientModule,
+
+    // Components
     LoadingSpinnerComponent,
     DialogAlertComponent
   ],
   imports: [
-    CommonModule,
-    ReactiveFormsModule,
+    NgbModule,
     FormsModule,
-    HttpClientModule
+    CommonModule,
+    BrowserModule,
+    HttpClientModule,
+    ReactiveFormsModule
   ]
 })
 export class SharedModule {}

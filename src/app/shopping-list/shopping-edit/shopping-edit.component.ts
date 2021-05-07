@@ -1,6 +1,6 @@
 import { Component, OnDestroy, OnInit } from '@angular/core'
 import { Ingredient } from '@shared/models'
-import { ShoppingListService } from '@shopping/shopping-list'
+import { ShoppingListService } from '../shopping-list.service'
 import { FormControl, FormGroup, Validators } from '@angular/forms'
 import { Observable, Subscription } from 'rxjs'
 
