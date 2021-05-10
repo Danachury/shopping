@@ -4,7 +4,7 @@ import { Observable } from 'rxjs'
 import { RecipesService } from '@recipes/recipes.service'
 import { Recipe } from '@recipes/recipe.model'
 import { map, tap } from 'rxjs/operators'
-import { AuthService } from 'src/app/auth/auth.service'
+import { AuthService } from '@auth/auth.service'
 
 const SERVICE_URL = 'https://shopping-10bbc-default-rtdb.firebaseio.com/recipes.json'
 

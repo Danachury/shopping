@@ -1,10 +1,10 @@
 import { NgModule } from '@angular/core'
 import { RouterModule, Routes } from '@angular/router'
-import { AuthGuardService } from 'src/app/auth'
+import { AuthGuardService } from '../auth'
 import { ShoppingListComponent } from './shopping-list.component'
 
 const routes: Routes = [
-  { path: 'shopping-list', component: ShoppingListComponent, canActivate: [AuthGuardService] }
+  { path: '', component: ShoppingListComponent, canActivate: [AuthGuardService] }
 ]
 
 @NgModule({

@@ -1,7 +1,7 @@
 import { ActivatedRouteSnapshot, CanActivate, Router, RouterStateSnapshot, UrlTree } from '@angular/router'
 import { Injectable } from '@angular/core'
-import { Logger } from 'src/app/core/logging'
-import { AuthService } from 'src/app/auth/auth.service'
+import { Logger } from '@core/logging'
+import { AuthService } from '@auth/auth.service'
 
 const logger = new Logger('AppComponent')
 

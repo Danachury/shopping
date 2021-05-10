@@ -1,4 +1,5 @@
 import { NgModule } from '@angular/core'
+
 import { RecipeListComponent } from '@recipes/recipe-list'
 import { RecipeDetailComponent } from '@recipes/recipe-detail'
 import { RecipeItemComponent } from '@recipes/recipe-list/recipe-item'

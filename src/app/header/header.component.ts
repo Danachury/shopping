@@ -1,7 +1,7 @@
 import { Component } from '@angular/core'
 import { DataStorageService } from '@shared/services/data-storage.service'
-import { Logger } from 'src/app/core/logging'
-import { AuthService } from 'src/app/auth/auth.service'
+import { Logger } from '@core/logging'
+import { AuthService } from '@auth/auth.service'
 import { Router } from '@angular/router'
 
 const logger = new Logger('HeaderComponent')

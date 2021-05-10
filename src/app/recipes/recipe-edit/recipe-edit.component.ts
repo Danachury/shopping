@@ -1,7 +1,7 @@
 import { Component, OnDestroy, OnInit } from '@angular/core'
 import { ActivatedRoute, Router } from '@angular/router'
 import { Subscription } from 'rxjs'
-import { Logger } from '../../core/logging'
+import { Logger } from '@core/logging'
 import { FormArray, FormControl, FormGroup, Validators } from '@angular/forms'
 import { RecipesService } from '@recipes/recipes.service'
 import { Recipe } from '@recipes/recipe.model'

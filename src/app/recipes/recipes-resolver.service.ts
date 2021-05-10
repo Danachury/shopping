@@ -4,7 +4,7 @@ import { Recipe } from '@recipes/recipe.model'
 import { Observable } from 'rxjs'
 import { DataStorageService } from '@shared/services/data-storage.service'
 import { RecipesService } from '@recipes/recipes.service'
-import { Logger } from 'src/app/core/logging'
+import { Logger } from '@core/logging'
 
 const logger = new Logger('RecipesResolverService')
 

@@ -5,41 +5,41 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms'
 import { HttpClientModule } from '@angular/common/http'
 import { DialogAlertComponent, LoadingSpinnerComponent } from './components'
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap'
-import { BrowserModule } from '@angular/platform-browser'
 
 @NgModule({
   declarations: [
-    HighlightDirective,
+    // Directives
     UnlessDirective,
     DropdownDirective,
-    LoadingSpinnerComponent,
+    HighlightDirective,
+    PlaceholderDirective,
+
+    // Components
     DialogAlertComponent,
-    PlaceholderDirective
+    LoadingSpinnerComponent
   ],
   exports: [
     // Modules
     NgbModule,
     FormsModule,
     CommonModule,
-    BrowserModule,
     HttpClientModule,
     ReactiveFormsModule,
 
     // Directives
-    HighlightDirective,
     UnlessDirective,
     DropdownDirective,
+    HighlightDirective,
     PlaceholderDirective,
 
     // Components
-    LoadingSpinnerComponent,
-    DialogAlertComponent
+    DialogAlertComponent,
+    LoadingSpinnerComponent
   ],
   imports: [
     NgbModule,
     FormsModule,
     CommonModule,
-    BrowserModule,
     HttpClientModule,
     ReactiveFormsModule
   ]

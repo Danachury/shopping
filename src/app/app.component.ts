@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core'
-import { Logger } from './core/logging'
+import { Logger } from '@core/logging'
 import { environment } from '@env/index'
 
 @Component({
