@@ -4,10 +4,9 @@ import { Observable, throwError } from 'rxjs'
 import { AuthResponseData, LoginContext, RequestBody } from './auth.model'
 import { catchError, tap } from 'rxjs/operators'
 import { User } from '@shared/models'
+import { environment } from '@env/environment'
 
 const USER_DATA_KEY = 'userData'
-const API_URL = 'https://identitytoolkit.googleapis.com/v1/accounts:'
-const API_KEY = 'AIzaSyDNDqTuTaK7kaW_Sp1FDK4wPtfGgYc0aF4'
 
 @Injectable({
   providedIn: 'root'
@@ -27,7 +26,7 @@ export class AuthService {
   login(loginContext: LoginContext): Observable<AuthResponseData> {
     return this._http
       .post<AuthResponseData>(
-        `${API_URL}signInWithPassword?key=${API_KEY}`,
+        `${environment.firebaseHost}accounts:signInWithPassword?key=${environment.firebaseAPIKey}`,
         AuthService.requestBody(loginContext))
       .pipe(
         catchError(AuthService.handleError),
@@ -38,7 +37,7 @@ export class AuthService {
   signup(loginContext: LoginContext): Observable<AuthResponseData> {
     return this._http
       .post<AuthResponseData>(
-        `${API_URL}signUp?key=${API_KEY}`,
+        `${environment.firebaseHost}accounts:signUp?key=${environment.firebaseAPIKey}`,
         AuthService.requestBody(loginContext))
       .pipe(
         catchError(AuthService.handleError),
