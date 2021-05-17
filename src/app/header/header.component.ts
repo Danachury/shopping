@@ -31,8 +31,6 @@ export class HeaderComponent {
   }
 
   onLogout(): void {
-    const loggedOut = this.authService.logout()
-    if (loggedOut)
-      this._router.navigate(['/auth'])
+    this.authService.logout()
   }
 }

@@ -6,6 +6,10 @@ import { SharedModule } from '@shared/shared.module'
 import { AppRoutingModule } from './app-routing.module'
 import { CoreModule } from '@core/core.module'
 import { BrowserModule } from '@angular/platform-browser'
+import { StoreModule } from '@ngrx/store'
+import { appReducer } from 'src/app/store'
+import { EffectsModule } from '@ngrx/effects'
+import { AuthEffects } from '@auth/store'
 
 @NgModule({
   declarations: [
@@ -16,6 +20,8 @@ import { BrowserModule } from '@angular/platform-browser'
     AppRoutingModule,
     BrowserModule,
     SharedModule,
+    EffectsModule.forRoot([AuthEffects]),
+    StoreModule.forRoot(appReducer),
     CoreModule
   ],
   bootstrap: [AppComponent]

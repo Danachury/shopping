@@ -19,7 +19,7 @@
                       id="amount"
                       class="form-control"
                       formControlName="amount">
-               <small *ngIf="controlHasError('amount', 'min') || controlHasError('amount', 'max')"
+               <small *ngIf="controlHasError('amount', ['min', 'max'])"
                       class="text-danger">
                   Min 1 - Max 4 items
                </small>

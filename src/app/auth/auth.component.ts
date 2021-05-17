@@ -1,20 +1,18 @@
-import { Component, ComponentFactoryResolver, OnDestroy, ViewChild } from '@angular/core'
+import { Component, ComponentFactoryResolver, OnDestroy, OnInit, ViewChild } from '@angular/core'
 import { NgForm } from '@angular/forms'
-import { AuthService } from '@auth/auth.service'
-import { AuthResponseData, LoginContext } from '@auth/auth.model'
-import { Logger } from '@core/logging'
-import { Observable, Subscription } from 'rxjs'
-import { Router } from '@angular/router'
+import { LoginContext } from '@auth/auth.model'
+import { Subscription } from 'rxjs'
 import { DialogAlertComponent } from '@shared/components'
 import { PlaceholderDirective } from '@shared/directives'
-
-const logger = new Logger('AuthComponent')
+import { Store } from '@ngrx/store'
+import { AppState } from 'src/app/store'
+import * as AuthActions from '@auth/store'
 
 @Component({
   selector: 'app-auth',
   templateUrl: './auth.component.html'
 })
-export class AuthComponent implements OnDestroy {
+export class AuthComponent implements OnInit, OnDestroy {
 
   @ViewChild(PlaceholderDirective)
   private _alertHost: PlaceholderDirective
@@ -26,9 +24,17 @@ export class AuthComponent implements OnDestroy {
   private _authSubs: Subscription
   private _alertSubs: Subscription
 
-  constructor(private _authService: AuthService,
-              private _router: Router,
+  constructor(private _store: Store<AppState>,
               private _compFactoryResolver: ComponentFactoryResolver) { }
+
+  ngOnInit(): void {
+    this._authSubs = this._store
+      .select('auth')
+      .subscribe(state => {
+        this.isLoading = state.isLoading
+        this.error = state.authError
+      })
+  }
 
   ngOnDestroy(): void {
     this._authSubs?.unsubscribe()
@@ -39,32 +45,18 @@ export class AuthComponent implements OnDestroy {
     if (form.invalid)
       return
 
-    this.isLoading = true
-
-    let authObs: Observable<AuthResponseData>
     const loginContext = form.value as LoginContext
 
-    if (this.isLoginMode) authObs = this._authService.login(loginContext)
-    else authObs = this._authService.signup(loginContext)
-
-    this._authSubs = authObs.subscribe(
-      response => {
-        logger.debug(response)
-        this.isLoading = false
-        this._router.navigate(['/recipes'])
-      },
-      errorMsg => {
-        this.error = errorMsg
-        // this.showErrorAlert(errorMsg)
-        this.isLoading = false
-      }
-    )
+    if (this.isLoginMode)
+      this._store.dispatch(new AuthActions.LoginStart(loginContext))
+    else
+      this._store.dispatch(new AuthActions.SignupStart(loginContext))
 
     form.reset()
   }
 
   resetError(): void {
-    this.error = null
+    this._store.dispatch(new AuthActions.ClearError())
   }
 
   // noinspection JSUnusedGlobalSymbols

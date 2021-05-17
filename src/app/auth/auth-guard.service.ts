@@ -2,6 +2,8 @@ import { ActivatedRouteSnapshot, CanActivate, Router, RouterStateSnapshot, UrlTr
 import { Injectable } from '@angular/core'
 import { Logger } from '@core/logging'
 import { AuthService } from '@auth/auth.service'
+import { map } from 'rxjs/operators'
+import { Observable } from 'rxjs'
 
 const logger = new Logger('AppComponent')
 
@@ -13,12 +15,14 @@ export class AuthGuardService implements CanActivate {
   constructor(private _authService: AuthService,
               private _router: Router) { }
 
-  canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): UrlTree | boolean {
-    if (!this._authService.isAuthenticated) {
+  canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean | UrlTree> {
+    const invalidateSession = () => {
       logger.info('Not authenticated. Redirecting to /auth..')
       this._authService.logout()
       return this._router.createUrlTree(['/auth'])
     }
-    return true
+    return this._authService
+      .isAuthenticated
+      .pipe(map(isAuthenticated => isAuthenticated ? true : invalidateSession()))
   }
 }

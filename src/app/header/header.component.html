@@ -2,21 +2,21 @@
    <a href="#" class="navbar-brand">Recipe Book</a>
    <div class="collapse navbar-collapse">
       <ul class="navbar-nav mr-auto">
-         <li *ngIf="!authService.isAuthenticated" class="nav-item">
+         <li *ngIf="!(authService.isAuthenticated | async)" class="nav-item">
             <a class="nav-link" routerLink="/auth" routerLinkActive="active">Authenticate</a>
          </li>
-         <li *ngIf="authService.isAuthenticated" class="nav-item">
+         <li *ngIf="authService.isAuthenticated | async" class="nav-item">
             <a class="nav-link" routerLink="/recipes" routerLinkActive="active">Recipes</a>
          </li>
-         <li *ngIf="authService.isAuthenticated" class="nav-item">
+         <li *ngIf="authService.isAuthenticated | async" class="nav-item">
             <a class="nav-link" routerLink="/shopping-list" routerLinkActive="active">Shopping List</a>
          </li>
       </ul>
       <ul ngbDropdown display="dynamic" class="navbar-nav">
-         <li *ngIf="authService.isAuthenticated" class="nav-item">
+         <li *ngIf="authService.isAuthenticated | async" class="nav-item">
             <a class="nav-link pointer" (click)="onLogout()">Logout</a>
          </li>
-         <li *ngIf="authService.isAuthenticated" class="nav-item">
+         <li *ngIf="authService.isAuthenticated | async" class="nav-item">
             <a ngbDropdownToggle id="navbarDropdown" class="nav-link pointer" role="button">Manage</a>
             <div ngbDropdownMenu aria-labelledby="navbarDropdown">
                <a ngbDropdownItem class="pointer" (click)="onSaveData()">Save Data</a>
