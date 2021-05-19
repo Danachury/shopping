@@ -49,8 +49,10 @@ export class AuthEffects {
     () => this._actions$
       .pipe(
         ofType(AUTHENTICATE_SUCCESS),
-        // ToDo: Add another effect to AutoLogin
-        tap(() => this._router.navigate(['/']))
+        tap((action: AuthenticateSuccess) => {
+          if (!!action.payload.redirect)
+            this._router.navigate(['/'])
+        })
       ),
     { dispatch: false }
   )
@@ -109,11 +111,11 @@ export class AuthEffects {
     if (!storedData)
       return new Logout()
     const data = JSON.parse(atob(storedData))
-    const user = new User(data.email, data.id, data._token, new Date(data._tokenExpirationDate))
+    const loggedUser = new User(data.email, data.id, data._token, new Date(data._tokenExpirationDate))
     const expiresIn = new Date(data._tokenExpirationDate).getTime() - new Date().getTime()
     this._authService.setLogoutTimer(expiresIn)
-    logger.debug(`Auto logging in User : ${user.email}`)
-    return new AuthenticateSuccess(user)
+    logger.debug(`Auto logging in User : ${loggedUser.email}`)
+    return new AuthenticateSuccess({ user: loggedUser })
   }
 
   logout(): void {
@@ -125,10 +127,10 @@ export class AuthEffects {
   private handleAuthentication(authData: AuthResponseData): AuthenticateSuccess {
     const expiresIn = +authData.expiresIn * 1000
     const expirationDate = new Date(new Date().getTime() + expiresIn)
-    const user = new User(authData.email, authData.localId, authData.idToken, expirationDate)
-    localStorage.setItem(USER_DATA_KEY, btoa(JSON.stringify(user)))
+    const loggedUser = new User(authData.email, authData.localId, authData.idToken, expirationDate)
+    localStorage.setItem(USER_DATA_KEY, btoa(JSON.stringify(loggedUser)))
     this._authService.setLogoutTimer(expiresIn)
-    return new AuthenticateSuccess(user)
+    return new AuthenticateSuccess({ user: loggedUser, redirect: true })
   }
 
   private static requestBody(loginContext: LoginContext): RequestBody {

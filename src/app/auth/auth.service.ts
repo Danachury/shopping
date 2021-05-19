@@ -11,7 +11,8 @@ import { Logout } from '@auth/store/auth.actions'
 })
 export class AuthService {
 
-  private _tokenExpirationTimer: number = null
+  // @ts-ignore
+  private _tokenExpirationTimer: NodeJS.Timeout = null
 
   constructor(private _store: Store<AppState>) { }
 

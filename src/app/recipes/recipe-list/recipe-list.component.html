@@ -2,7 +2,7 @@
    <div class="xs-12">
       <button class="btn btn-success" routerLink="new">New Recipe</button>
       <hr>
-      <app-recipe-item *ngFor="let recipe of recipesService.recipes" [recipe]="recipe">
+      <app-recipe-item *ngFor="let recipe of recipes" [recipe]="recipe">
       </app-recipe-item>
    </div>
 </div>

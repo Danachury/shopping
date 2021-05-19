@@ -1,10 +1,8 @@
 import { Component } from '@angular/core'
-import { DataStorageService } from '@shared/services/data-storage.service'
-import { Logger } from '@core/logging'
 import { AuthService } from '@auth/auth.service'
-import { Router } from '@angular/router'
-
-const logger = new Logger('HeaderComponent')
+import { Store } from '@ngrx/store'
+import { AppState } from 'src/app/store'
+import { FetchRecipes, StoreRecipes } from '@recipes/store'
 
 @Component({
   selector: 'app-header',
@@ -13,21 +11,14 @@ const logger = new Logger('HeaderComponent')
 export class HeaderComponent {
 
   constructor(public authService: AuthService,
-              private _dataStorageService: DataStorageService,
-              private _router: Router) {}
+              private _store: Store<AppState>) {}
 
   onSaveData(): void {
-    this._dataStorageService
-      .storeRecipe()
-      .subscribe(recipes =>
-        logger.info(`Stored data ${recipes.length} items`)
-      )
+    this._store.dispatch(new StoreRecipes())
   }
 
   onFetchData(): void {
-    this._dataStorageService
-      .fetchRecipes()
-      .subscribe()
+    this._store.dispatch(new FetchRecipes())
   }
 
   onLogout(): void {

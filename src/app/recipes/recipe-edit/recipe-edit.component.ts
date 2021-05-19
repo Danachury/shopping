@@ -3,8 +3,11 @@ import { ActivatedRoute, Router } from '@angular/router'
 import { Subscription } from 'rxjs'
 import { Logger } from '@core/logging'
 import { FormArray, FormControl, FormGroup, Validators } from '@angular/forms'
-import { RecipesService } from '@recipes/recipes.service'
 import { Recipe } from '@recipes/recipe.model'
+import { Store } from '@ngrx/store'
+import { AppState } from 'src/app/store'
+import { map } from 'rxjs/operators'
+import { AddRecipe, UpdateRecipe } from '@recipes/store'
 
 const logger = new Logger('RecipeEditComponent')
 
@@ -17,14 +20,15 @@ export class RecipeEditComponent implements OnInit, OnDestroy {
   recipeForm: FormGroup
   editItemId: number = null
 
-  private _paramsSubscription: Subscription
+  private _maxId: number
+  private _storeSubs: Subscription
 
   constructor(private _activatedRoute: ActivatedRoute,
               private _router: Router,
-              private _recipeService: RecipesService) { }
+              private _store: Store<AppState>) { }
 
   ngOnInit(): void {
-    this._paramsSubscription = this._activatedRoute.params
+    this._activatedRoute.params
       .subscribe(params => {
         this.editItemId = +params.id
         logger.debug(`In edit mode: ${!isNaN(this.editItemId)}`)
@@ -33,12 +37,12 @@ export class RecipeEditComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    this._paramsSubscription.unsubscribe()
+    this._storeSubs?.unsubscribe()
   }
 
   onSubmit(): void {
     const formValue = this.recipeForm.value
-    const id = Math.max(...this._recipeService.recipes.map(rc => rc.id)) + 1
+    const id = !isNaN(this.editItemId) ? this.editItemId : this._maxId + 1
     const recipe = new Recipe(
       id,
       formValue.name,
@@ -47,10 +51,10 @@ export class RecipeEditComponent implements OnInit, OnDestroy {
       formValue.ingredients
     )
     if (!isNaN(this.editItemId)) {
-      this._recipeService.updateRecipe(this.editItemId, recipe)
+      this._store.dispatch(new UpdateRecipe({ id: this.editItemId, recipe }))
       this.editItemId = null
     } else
-      this._recipeService.addRecipes = recipe
+      this._store.dispatch(new AddRecipe(recipe))
     this.onCancel()
   }
 
@@ -76,15 +80,27 @@ export class RecipeEditComponent implements OnInit, OnDestroy {
   }
 
   private _initForm(): void {
-    const recipe = this._recipeService.getRecipe(this.editItemId)
-    const ingredientsControls: FormGroup[] = !recipe ? [] : recipe.ingredients
-      .map(ingredient => RecipeEditComponent._initIngredientsFormGroup(ingredient.name, ingredient.amount))
-    this.recipeForm = new FormGroup({
-      name: new FormControl(recipe?.name, Validators.required),
-      imagePath: new FormControl(recipe?.imagePath, Validators.required),
-      description: new FormControl(recipe?.description, Validators.required),
-      ingredients: new FormArray(ingredientsControls)
-    })
+    const findRecipe = (recipes: Recipe[]): Recipe => {
+      this._maxId = Math.max(...recipes.map(recipe => recipe.id))
+      return recipes.find(recipe => recipe.id === this.editItemId)
+    }
+    const createForm = (recipe: Recipe) => {
+      const ingredientsControls: FormGroup[] = !recipe ? [] : recipe.ingredients
+        .map(ingredient => RecipeEditComponent._initIngredientsFormGroup(ingredient.name, ingredient.amount))
+      this.recipeForm = new FormGroup({
+        name: new FormControl(recipe?.name, Validators.required),
+        imagePath: new FormControl(recipe?.imagePath, Validators.required),
+        description: new FormControl(recipe?.description, Validators.required),
+        ingredients: new FormArray(ingredientsControls)
+      })
+    }
+    this._storeSubs = this._store
+      .select('recipes')
+      .pipe(
+        map(state => state.recipes),
+        map(findRecipe)
+      )
+      .subscribe(createForm)
   }
 
   private static _initIngredientsFormGroup(nameState?: any, amountState?: any): FormGroup {

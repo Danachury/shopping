@@ -2,7 +2,9 @@ import { User } from '@shared/models'
 import {
   AuthActions,
   AUTHENTICATE_FAIL,
-  AUTHENTICATE_SUCCESS, AUTO_LOGIN,
+  AUTHENTICATE_SUCCESS,
+  AuthenticateFail,
+  AuthenticateSuccess,
   CLEAR_ERROR,
   LOGIN_START,
   LOGOUT,
@@ -24,14 +26,14 @@ export const authReducer = (state: State = initialState, action: AuthActions) =>
     case AUTHENTICATE_SUCCESS:
       return {
         ...state,
-        user: action['payload'],
+        user: (action as AuthenticateSuccess).payload.user,
         isLoading: false
       }
     case AUTHENTICATE_FAIL:
       return {
         ...state,
         user: null,
-        authError: action['payload'],
+        authError: (action as AuthenticateFail).payload,
         isLoading: false
       }
     case SIGNUP_START:
