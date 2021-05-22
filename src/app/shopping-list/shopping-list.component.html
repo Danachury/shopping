@@ -4,7 +4,7 @@
       <hr>
       <ul class="list-group">
          <li class="list-group-item clearfix"
-            *ngFor="let ingredient of (ingredientsObs | async).ingredients; let i = index">
+             *ngFor="let ingredient of ingredientsObs | async; let i = index">
             <span class="ing-detail float-left">{{ ingredient.name }} ({{ ingredient.amount }})</span>
             <span class="ing-detail float-right">
                <i class="bi bi-pencil-square margin-r-10 pointer"

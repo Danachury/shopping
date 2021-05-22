@@ -17,10 +17,11 @@ import { environment } from '@env/environment'
 import { HttpClient, HttpErrorResponse } from '@angular/common/http'
 import { Observable, of } from 'rxjs'
 import { User } from '@shared/models'
-import { Injectable } from '@angular/core'
+import { Inject, Injectable, PLATFORM_ID } from '@angular/core'
 import { Router } from '@angular/router'
 import { Logger } from '@core/logging'
 import { AuthService } from '../auth.service'
+import { isPlatformBrowser } from '@angular/common'
 
 const logger = new Logger('AuthEffects')
 const USER_DATA_KEY = 'userData'
@@ -78,7 +79,8 @@ export class AuthEffects {
   constructor(private _http: HttpClient,
               private _actions$: Actions,
               private _router: Router,
-              private _authService: AuthService) { }
+              private _authService: AuthService,
+              @Inject(PLATFORM_ID) private _platformId: any) { }
 
   login(start: LoginStart): Observable<AuthenticateSuccess | AuthenticateFail> {
     // @ts-ignore. Use this suppress to avoid compilation error
@@ -119,7 +121,8 @@ export class AuthEffects {
   }
 
   logout(): void {
-    localStorage.removeItem(USER_DATA_KEY)
+    if (isPlatformBrowser(this._platformId))
+      localStorage.removeItem(USER_DATA_KEY)
     this._authService.clearLogoutTimer()
     this._router.navigate(['/auth'])
   }
@@ -128,7 +131,8 @@ export class AuthEffects {
     const expiresIn = +authData.expiresIn * 1000
     const expirationDate = new Date(new Date().getTime() + expiresIn)
     const loggedUser = new User(authData.email, authData.localId, authData.idToken, expirationDate)
-    localStorage.setItem(USER_DATA_KEY, btoa(JSON.stringify(loggedUser)))
+    if (isPlatformBrowser(this._platformId))
+      localStorage.setItem(USER_DATA_KEY, btoa(JSON.stringify(loggedUser)))
     this._authService.setLogoutTimer(expiresIn)
     return new AuthenticateSuccess({ user: loggedUser, redirect: true })
   }

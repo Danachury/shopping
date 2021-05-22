@@ -5,6 +5,7 @@ import { Ingredient } from '@shared/models'
 import { Observable } from 'rxjs'
 import * as Actions from '@shopping-list/store/shopping-list.actions'
 import { AppState } from 'src/app/store'
+import { map } from 'rxjs/operators'
 
 @Component({
   selector: 'app-shopping-list',
@@ -13,18 +14,20 @@ import { AppState } from 'src/app/store'
 })
 export class ShoppingListComponent implements OnInit {
 
-  ingredientsObs: Observable<{ ingredients: Ingredient[] }>
+  ingredientsObs: Observable<Ingredient[]>
 
   constructor(public shoppingListService: ShoppingListService,
               private _store: Store<AppState>) { }
 
   ngOnInit(): void {
-    this.ingredientsObs = this._store.select('shoppingList')
+    this.ingredientsObs = this._store
+      .select('shoppingList')
+      .pipe(map(state => state.ingredients))
   }
 
   onDeleteIngredient(index: number): void {
     this._store.dispatch(new Actions.DeleteIngredient(index))
-    this.shoppingListService.deleteItem$.next()
+    this.shoppingListService.deleteItem$.next(index)
   }
 
   onEdit(index: number): void {
